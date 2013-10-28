@@ -30,8 +30,6 @@ anim.start();
  
 Serial.begin(9600); 
 
-Color xx = Color(0xfe00ff); 
-
 }
 
 

@@ -89,6 +89,33 @@ void Animator::setAnimation(const KeyFrame* _animation, size_t size)
 
 }
 
+void Animator::setAnimation(const KeyFrame* _animation, size_t size, unsigned long _duration)
+{
+    duration = _duration;
+    //allocate memory / check if right
+    nKeyFrames = size;
+    animation = new KeyFrame[nKeyFrames];
+    animationSteps = new int[nKeyFrames];
+    for (int i=0; i<nKeyFrames; i++)
+    {
+        animation[i] = _animation[i];
+        animationSteps[i] = floor((animation[i].perc*duration)/STEPTIME); //for each animation's keyframe perc tim the step when it's supposed to start
+    }
+
+    bAnimationTransition = true;
+    //diff between newly set animation first color
+    int rDiff = animation[0].col.r - r;
+    int gDiff = animation[0].col.g - g;
+    int bDiff = animation[0].col.b - b;
+
+
+    rInc = (float)rDiff/nAnimationTransitionSteps;
+    gInc = (float)gDiff/nAnimationTransitionSteps;
+    bInc = (float)bDiff/nAnimationTransitionSteps;
+    start();
+
+}
+
 void Animator::setAlternate(bool _bAlternate){
     bAlternate = _bAlternate;
 }
