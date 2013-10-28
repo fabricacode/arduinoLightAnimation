@@ -54,6 +54,7 @@ class Animator
         void setPins(const int* _pwmPins); //should be pwm pins. 3
         void setAnimation(const KeyFrame* _animation, size_t size);
         void setDuration(unsigned long _duration);
+        void setAlternate(bool _bAlternate);
         void start();
         void update();// pass millis() here
 
@@ -66,16 +67,16 @@ class Animator
         KeyFrame* animation;
         int* animationSteps; //same n elements of animation. each element is the step when that keframe occurs
         int nKeyFrames;
-        
-    
+
+
         unsigned long duration;
         unsigned long lastCounterUpdate;
         int step;
         int nSteps;
         bool bDirectionUp;
         int animationIndex;
-    
-        bool bAlternate; 
+
+        bool bAlternate;
 
         float rInc;
         float gInc;
@@ -84,7 +85,7 @@ class Animator
         float r;
         float g;
         float b;
-    
+
 
         Color currentColor;
 

@@ -23,6 +23,7 @@ int pins[3] = {5,3,6};
 anim.setPins(pins); 
 anim.setDuration(5000);
 anim.setAnimation(rainbow, 3 );
+anim.setAlternate(true); 
 
  
 anim.start();

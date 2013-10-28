@@ -89,6 +89,11 @@ void Animator::setAnimation(const KeyFrame* _animation, size_t size)
 
 }
 
+void Animator::setAlternate(bool _bAlternate){
+    bAlternate = _bAlternate;
+}
+
+
 
 
 
@@ -158,6 +163,10 @@ void Animator::update()
                         }
 
                     }
+                    //set color
+                    r = animation[animationIndex].col.r;
+                    g = animation[animationIndex].col.g;
+                    b = animation[animationIndex].col.b;
 
                     //calculae new rInc
                     int rDiff = animation[nextAnimationIndex].col.r - animation[animationIndex].col.r;
@@ -206,6 +215,10 @@ void Animator::update()
                     {
                         stepsToNextKeyFrame = animationSteps[nextAnimationIndex] - step;
                     }
+                    //set color
+                    r = animation[animationIndex].col.r;
+                    g = animation[animationIndex].col.g;
+                    b = animation[animationIndex].col.b;
                     //calculae new rInc
                     int rDiff = animation[nextAnimationIndex].col.r - animation[animationIndex].col.r;
                     int gDiff = animation[nextAnimationIndex].col.g - animation[animationIndex].col.g;
