@@ -64,14 +64,18 @@ class Animator
     private:
 
         KeyFrame* animation;
-        int* animationSteps;
+        int* animationSteps; //same n elements of animation. each element is the step when that keframe occurs
         int nKeyFrames;
-
+        
+    
         unsigned long duration;
-        int nSteps;
-
         unsigned long lastCounterUpdate;
         int step;
+        int nSteps;
+        bool bDirectionUp;
+        int animationIndex;
+    
+        bool bAlternate; 
 
         float rInc;
         float gInc;
@@ -80,6 +84,7 @@ class Animator
         float r;
         float g;
         float b;
+    
 
         Color currentColor;
 
@@ -91,6 +96,7 @@ class Animator
 
 
         bool bAnimationTransition;
+    int nAnimationTransitionSteps;
 
 
 

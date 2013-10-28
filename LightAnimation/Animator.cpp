@@ -33,6 +33,7 @@ Animator::Animator()
 {
     //default things
     duration = 1000;
+    nTransitionSteps = 10; 
     pwmPins[0] = 2;
     pwmPins[1] = 3;
     pwmPins[2] = 4;
@@ -43,6 +44,9 @@ Animator::Animator()
     gInc = 0;
     bInc = 0;
     bAnimationTransition = false;
+    
+    bDirectionUp = true;
+    animIndex = 0; 
 
 }
 
@@ -71,7 +75,6 @@ void Animator::setAnimation(const KeyFrame* _animation, size_t size)
     }
 
     bAnimationTransition = true;
-    int nAnimationTransitionSteps = 10; //debugging
     //diff between newly set animation first color
     int rDiff = animation[0].col.r - r;
     int gDiff = animation[0].col.g - g;
@@ -99,12 +102,14 @@ void Animator::start()
 
 void Animator::update()
 {
+    
 
     //update color every STEPTIME ms
     if (millis() - lastCounterUpdate > STEPTIME)
     {
+        
         lastCounterUpdate = millis();
-
+        //update colors
         r += rInc;
         g += gInc;
         b += bInc;
@@ -112,16 +117,118 @@ void Animator::update()
         currentColor = Color(r,g,b);
         writeRGBPins(currentColor);
 
-        step++;
-
-
-
-        if (bAnimationTransition)
+        
+        
+        if (!bAnimationTransition)
         {
-            Serial.print("step: ");
-            Serial.println(step);
+            if (bAlternate)
+            {
+                //check if I'm in a new keyframe
+                if (step == animationSteps[animationIndex])
+                {
+                    int stepsToNextKeyFrame;
+                    int nextAnimationIndex;
+                    if (bDirectionUp)
+                    {
+                        if (animationIndex==nKeyFrames-1)
+                        {
+                            nextAnimationIndex = animationIndex; //no changes
+                            stepsToNextKeyFrame = (nSteps-step-1)*2;
+                            //bDirectionUp = false;
+                        }
+                        else
+                        {
+                            nextAnimationIndex = animationIndex+1:
+                            stepsToNextKeyFrame = animationSteps[nextAnimationIndex] - step;
+                        }
+                        
+                    }
+                    else //direction down
+                    {
+                        if (animationIndex== 0)
+                        {
+                            nextAnimationIndex = animationIndex;
+                            stepsToNextKeyFrame = step*2;
+                        }
+                        else
+                        {
+                            nextAnimationIndex = animationIndex -1;
+                            stepsToNextKeyFrame = step - animationSteps[nextAnimationIndex];
+                        }
+                        
+                    }
+                    
+                    //calculae new rInc
+                    int rDiff = animation[nextAnimationIndex].col.r - animation[animationIndex].col.r;
+                    int gDiff = animation[nextAnimationIndex].col.g - animation[animationIndex].col.g;
+                    int bDiff = animation[nextAnimationIndex].col.b - animation[animationIndex].col.b;
+                    rInc = (float)rDiff/stepsToNextKeyFrame;
+                    gInc = (float)gDiff/stepsToNextKeyFrame;
+                    bInc = (float)bDiff/stepsToNextKeyFrame;
+                    
+                    
+                }
+                
+                //update step
+                if (bDirectionUp)
+                {
+                    step++;
+                    if (step == nSteps-1)
+                        bDirectionUp = false;
+                    
+                }
+                else //direction down
+                {
+                    
+                    step--;
+                    if (step==0)
+                        bDirectionUp = true;
+                }
+                
+                
+                
+            }
+            
+            else //not alternate
+            {
+                if (step == animationSteps[animationIndex])
+                {
+                    int stepsToNextKeyFrame;
+                    int nextAnimationIndex = (animationIndex+1)%nKeyFrames;;
+                    if (animationIndex==nKeyFrames-1)
+                    {
+                        stepsToNextKeyFrame = (nSteps - step) + animationSteps[nextAnimationIndex];
+                    }
+                    else
+                    {
+                        stepsToNextKeyFrame = animationSteps[nextAnimationIndex] - step;
+                    }
+                    //calculae new rInc
+                    int rDiff = animation[nextAnimationIndex].col.r - animation[animationIndex].col.r;
+                    int gDiff = animation[nextAnimationIndex].col.g - animation[animationIndex].col.g;
+                    int bDiff = animation[nextAnimationIndex].col.b - animation[animationIndex].col.b;
+                    rInc = (float)rDiff/stepsToNextKeyFrame;
+                    gInc = (float)gDiff/stepsToNextKeyFrame;
+                    bInc = (float)bDiff/stepsToNextKeyFrame;
+                    
+                    
+                }
+                //update step
+                step++
+                if (step == nSteps)
+                    step = 0;
+                
+                
+                
+            }
 
-            if (step == 10)
+            
+        }
+        
+        else //it's a transition between two animations
+        {
+            step ++;
+            if (step == nAnimationTransitionSteps-1)
             {
                 step = 0;
                 bAnimationTransition = false;
@@ -130,59 +237,8 @@ void Animator::update()
                 bInc = 0;
 
             }
-
-
-
-        }
-
-        if (!bAnimationTransition)
-        {
-            if (step == nSteps)
-                step = 0;
-
-            //check if we stepped to a new keyframe time
-            for (int i=0; i<nKeyFrames; i++)
-            {
-                int animStep = animationSteps[i];
-                if (step == animationSteps[i])
-                {
-
-                    //new keyframe
-
-                    r = animation[i].col.r; //update color. should not be necessary because I should alread be here
-                    g = animation[i].col.g; //update color. should not be necessary because I should alread be here
-                    b = animation[i].col.b; //update color. should not be necessary because I should alread be here
-
-                    int nextKeyframeIndex = (i+1)%nKeyFrames;
-
-                    int rDiff = animation[nextKeyframeIndex].col.r - animation[i].col.r;
-                    int gDiff = animation[nextKeyframeIndex].col.g - animation[i].col.g;
-                    int bDiff = animation[nextKeyframeIndex].col.b - animation[i].col.b;
-
-                    int stepsToNextKeyFrame;
-                    if (nextKeyframeIndex < i)
-                    {
-                        stepsToNextKeyFrame = (nSteps - step) + animationSteps[nextKeyframeIndex];
-                    }
-                    else
-                    {
-                        stepsToNextKeyFrame = animationSteps[nextKeyframeIndex] - step;
-
-                    }
-
-
-                    if ( stepsToNextKeyFrame < 1) stepsToNextKeyFrame = 1;
-
-                    rInc = (float)rDiff/stepsToNextKeyFrame;
-                    gInc = (float)gDiff/stepsToNextKeyFrame;
-                    bInc = (float)bDiff/stepsToNextKeyFrame;
-                }
-
-            }
-
-        }
-
-
+        }        
+        
     }
 }
 
