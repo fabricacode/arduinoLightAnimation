@@ -27,7 +27,7 @@ THE SOFTWARE.
 
 */
 
-// TODO Fix: I assume keyframes are set in the animation array in order. Put them in order in the animation object
+// TODO Add: set colors in different ways (rbg, hsv, hex... )
 
 #ifndef LIGHTANIMATION_H
 #define LIGHTANIMATION_H

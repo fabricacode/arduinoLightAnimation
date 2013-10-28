@@ -18,7 +18,7 @@ rainbow[0] = KeyFrame(blue,0.0);
 rainbow[1] = KeyFrame(green,0.33); 
 rainbow[2] = KeyFrame(red,0.66); 
 
-int pins[3] = {5,3,6}; 
+int pins[3] = {3,5, 6}; 
 
 anim.setPins(pins); 
 anim.setDuration(5000);
@@ -30,10 +30,12 @@ anim.start();
  
 Serial.begin(9600); 
 
+Color xx = Color(0xfe00ff); 
+
 }
 
 
 void loop()
 {
-anim.update();  
+  anim.update();  
 }

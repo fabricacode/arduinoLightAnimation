@@ -50,6 +50,16 @@ Color::Color(unsigned char _brightness)
     b = _brightness;
 }
 
+Color::Color(long int _hexCol)
+{
+    //as 0xrrggbb
+    r = (_hexCol >> 16) & 0xFF;
+    g = (_hexCol >> 8) & 0xFF;
+    b = _hexCol & 0xFF;
+
+
+}
+
 
 
 void Color :: setHSB(int _hue, int _saturation, int _brightness)
