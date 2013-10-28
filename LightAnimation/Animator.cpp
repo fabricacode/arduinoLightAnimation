@@ -33,7 +33,7 @@ Animator::Animator()
 {
     //default things
     duration = 1000;
-    nTransitionSteps = 10; 
+    nAnimationTransitionSteps = 10;
     pwmPins[0] = 2;
     pwmPins[1] = 3;
     pwmPins[2] = 4;
@@ -44,9 +44,10 @@ Animator::Animator()
     gInc = 0;
     bInc = 0;
     bAnimationTransition = false;
-    
+
     bDirectionUp = true;
-    animIndex = 0; 
+    bAlternate = false;
+    animationIndex = 0;
 
 }
 
@@ -102,12 +103,12 @@ void Animator::start()
 
 void Animator::update()
 {
-    
+
 
     //update color every STEPTIME ms
     if (millis() - lastCounterUpdate > STEPTIME)
     {
-        
+
         lastCounterUpdate = millis();
         //update colors
         r += rInc;
@@ -117,8 +118,8 @@ void Animator::update()
         currentColor = Color(r,g,b);
         writeRGBPins(currentColor);
 
-        
-        
+
+
         if (!bAnimationTransition)
         {
             if (bAlternate)
@@ -138,10 +139,10 @@ void Animator::update()
                         }
                         else
                         {
-                            nextAnimationIndex = animationIndex+1:
+                            nextAnimationIndex = animationIndex+1;
                             stepsToNextKeyFrame = animationSteps[nextAnimationIndex] - step;
                         }
-                        
+
                     }
                     else //direction down
                     {
@@ -155,9 +156,9 @@ void Animator::update()
                             nextAnimationIndex = animationIndex -1;
                             stepsToNextKeyFrame = step - animationSteps[nextAnimationIndex];
                         }
-                        
+
                     }
-                    
+
                     //calculae new rInc
                     int rDiff = animation[nextAnimationIndex].col.r - animation[animationIndex].col.r;
                     int gDiff = animation[nextAnimationIndex].col.g - animation[animationIndex].col.g;
@@ -165,30 +166,32 @@ void Animator::update()
                     rInc = (float)rDiff/stepsToNextKeyFrame;
                     gInc = (float)gDiff/stepsToNextKeyFrame;
                     bInc = (float)bDiff/stepsToNextKeyFrame;
-                    
-                    
+
+                    animationIndex = nextAnimationIndex;
+
+
                 }
-                
+
                 //update step
                 if (bDirectionUp)
                 {
                     step++;
                     if (step == nSteps-1)
                         bDirectionUp = false;
-                    
+
                 }
                 else //direction down
                 {
-                    
+
                     step--;
                     if (step==0)
                         bDirectionUp = true;
                 }
-                
-                
-                
+
+
+
             }
-            
+
             else //not alternate
             {
                 if (step == animationSteps[animationIndex])
@@ -210,21 +213,23 @@ void Animator::update()
                     rInc = (float)rDiff/stepsToNextKeyFrame;
                     gInc = (float)gDiff/stepsToNextKeyFrame;
                     bInc = (float)bDiff/stepsToNextKeyFrame;
-                    
-                    
+
+                    animationIndex = nextAnimationIndex;
+
+
                 }
                 //update step
-                step++
+                step++;
                 if (step == nSteps)
                     step = 0;
-                
-                
-                
+
+
+
             }
 
-            
+
         }
-        
+
         else //it's a transition between two animations
         {
             step ++;
@@ -237,8 +242,8 @@ void Animator::update()
                 bInc = 0;
 
             }
-        }        
-        
+        }
+
     }
 }
 
