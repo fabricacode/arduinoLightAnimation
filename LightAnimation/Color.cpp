@@ -56,8 +56,22 @@ Color::Color(long int _hexCol)
     r = (_hexCol >> 16) & 0xFF;
     g = (_hexCol >> 8) & 0xFF;
     b = _hexCol & 0xFF;
+}
 
+Color::Color(int _hexCol)
+{
+    //as 0xrrggbb
+    r = (_hexCol >> 16) & 0xFF;
+    g = (_hexCol >> 8) & 0xFF;
+    b = _hexCol & 0xFF;
+}
 
+Color::Color(unsigned int _hexCol)
+{
+    //as 0xrrggbb
+    r = (_hexCol >> 16) & 0xFF;
+    g = (_hexCol >> 8) & 0xFF;
+    b = _hexCol & 0xFF;
 }
 
 

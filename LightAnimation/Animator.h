@@ -75,6 +75,7 @@ class Animator
         int step;
         int nSteps;
         bool bDirectionUp;
+
         int animationIndex;
 
         bool bAlternate;

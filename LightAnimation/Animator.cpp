@@ -280,6 +280,7 @@ void Animator::update()
                 rInc = 0;
                 gInc = 0;
                 bInc = 0;
+                animationIndex = 0;
 
             }
         }

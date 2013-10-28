@@ -51,6 +51,8 @@ class Color
     Color(unsigned char _r, unsigned char _g, unsigned char _b);
     Color(unsigned char _brightness);
     Color(long int _hexCol);
+    Color(int _hexCol);
+    Color(unsigned int _hexCol);
     //Color(int _hue, int _saturation, int _brightness, bool bHSV=true);
     //https://github.com/julioterra/HSB_Color for color conversion
     void setHSB(int _hue, int _saturation, int _brightness); //hue: 0 - 359; saturation: 0 - 99; brightness: 0 - 99
