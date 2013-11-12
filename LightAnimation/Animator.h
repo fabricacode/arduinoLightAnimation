@@ -51,11 +51,13 @@ class Animator
 {
     public:
         Animator(); //set default pwmPins, duration
+        ~Animator(); //set default pwmPins, duration
         void setPins(const int* _pwmPins); //should be pwm pins. 3
         void setAnimation(const KeyFrame* _animation, size_t size);
         void setAnimation(const KeyFrame* _animation, size_t size, unsigned long _duration);
         void setDuration(unsigned long _duration);
         void setAlternate(bool _bAlternate);
+        void setTransitionDuration(unsigned long _transitionDuration);
         void start();
         void update();// pass millis() here
 

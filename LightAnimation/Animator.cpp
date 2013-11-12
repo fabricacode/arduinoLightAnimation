@@ -49,6 +49,16 @@ Animator::Animator()
     bAlternate = false;
     animationIndex = 0;
 
+    animation = NULL;
+    animationSteps = NULL;
+
+}
+
+Animator::~Animator()
+{
+    delete [] animation;
+    delete [] animationSteps;
+
 }
 
 void Animator::setPins(const int* _pwmPins)
@@ -66,6 +76,12 @@ void Animator::setDuration(unsigned long _duration)
 void Animator::setAnimation(const KeyFrame* _animation, size_t size)
 {
     //allocate memory / check if right
+
+    if (animation != NULL)
+        delete [] animation;
+    if (animationSteps != NULL)
+        delete [] animationSteps;
+
     nKeyFrames = size;
     animation = new KeyFrame[nKeyFrames];
     animationSteps = new int[nKeyFrames];
@@ -118,6 +134,11 @@ void Animator::setAnimation(const KeyFrame* _animation, size_t size, unsigned lo
 
 void Animator::setAlternate(bool _bAlternate){
     bAlternate = _bAlternate;
+}
+
+void Animator::setTransitionDuration(unsigned long _transitionDuration)
+{
+    nAnimationTransitionSteps = (float)_transitionDuration/STEPTIME;
 }
 
 
@@ -281,6 +302,9 @@ void Animator::update()
                 gInc = 0;
                 bInc = 0;
                 animationIndex = 0;
+                r = animation[0].col.r;
+                g = animation[0].col.g;
+                b = animation[0].col.b;
 
             }
         }
