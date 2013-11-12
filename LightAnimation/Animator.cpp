@@ -33,6 +33,12 @@ Animator::Animator()
 {
     //default things
     duration = 1000;
+
+    nIterations = 1;
+    iterations = 0;
+    bInfiniteIterations = true;
+
+
     nAnimationTransitionSteps = 10;
     pwmPins[0] = 2;
     pwmPins[1] = 3;
@@ -51,6 +57,8 @@ Animator::Animator()
 
     animation = NULL;
     animationSteps = NULL;
+
+
 
 }
 
@@ -75,7 +83,6 @@ void Animator::setDuration(unsigned long _duration)
 
 void Animator::setAnimation(const KeyFrame* _animation, size_t size)
 {
-    //allocate memory / check if right
 
     if (animation != NULL)
         delete [] animation;
@@ -107,6 +114,11 @@ void Animator::setAnimation(const KeyFrame* _animation, size_t size)
 
 void Animator::setAnimation(const KeyFrame* _animation, size_t size, unsigned long _duration)
 {
+    if (animation != NULL)
+        delete [] animation;
+    if (animationSteps != NULL)
+        delete [] animationSteps;
+
     duration = _duration;
     //allocate memory / check if right
     nKeyFrames = size;
@@ -132,7 +144,24 @@ void Animator::setAnimation(const KeyFrame* _animation, size_t size, unsigned lo
 
 }
 
-void Animator::setAlternate(bool _bAlternate){
+void Animator::setIterations(int _nIterations)
+{
+    bInfiniteIterations = false;
+    iterations = 0;
+    if (_nIterations < 1)
+        nIterations = 1;
+    else if (_nIterations > MAXNITERATIONS)
+        bInfiniteIterations = true;
+    else
+        nIterations = _nIterations;
+}
+void Animator::setIterationsInfinite(bool _bInfiniteIterations)
+{
+    bInfiniteIterations = _bInfiniteIterations;
+}
+
+void Animator::setAlternate(bool _bAlternate)
+{
     bAlternate = _bAlternate;
 }
 
@@ -152,164 +181,203 @@ void Animator::start()
     nSteps = (float)duration/STEPTIME;
     lastCounterUpdate = millis();
     step = 0;
+    iterations = 0;
 }
 
 void Animator::update()
 {
-
-
-    //update color every STEPTIME ms
-    if (millis() - lastCounterUpdate > STEPTIME)
+    if (bInfiniteIterations || iterations < nIterations)
     {
-
-        lastCounterUpdate = millis();
-        //update colors
-        r += rInc;
-        g += gInc;
-        b += bInc;
-
-        currentColor = Color(r,g,b);
-        writeRGBPins(currentColor);
-
-
-
-        if (!bAnimationTransition)
+        //update color every STEPTIME ms
+        if (millis() - lastCounterUpdate > STEPTIME)
         {
-            if (bAlternate)
+
+            lastCounterUpdate = millis();
+            //update colors
+            r += rInc;
+            g += gInc;
+            b += bInc;
+
+            currentColor = Color(r,g,b);
+            writeRGBPins(currentColor);
+
+
+
+            if (!bAnimationTransition)
             {
-                //check if I'm in a new keyframe
-                if (step == animationSteps[animationIndex])
+                if (bAlternate)
                 {
-                    int stepsToNextKeyFrame;
-                    int nextAnimationIndex;
+                    //check if I'm in a new keyframe
+                    if (step == animationSteps[animationIndex])
+                    {
+                        int stepsToNextKeyFrame;
+                        int nextAnimationIndex;
+                        if (bDirectionUp)
+                        {
+                            if (animationIndex==nKeyFrames-1)
+                            {
+                                nextAnimationIndex = animationIndex; //no changes
+                                stepsToNextKeyFrame = (nSteps-step-1)*2;
+                                //bDirectionUp = false;
+                            }
+                            else
+                            {
+                                nextAnimationIndex = animationIndex+1;
+                                stepsToNextKeyFrame = animationSteps[nextAnimationIndex] - step;
+                            }
+
+                        }
+                        else //direction down
+                        {
+                            if (animationIndex== 0)
+                            {
+                                nextAnimationIndex = animationIndex;
+                                stepsToNextKeyFrame = step*2;
+                            }
+                            else
+                            {
+                                nextAnimationIndex = animationIndex -1;
+                                stepsToNextKeyFrame = step - animationSteps[nextAnimationIndex];
+                            }
+
+                        }
+                        //set color
+                        r = animation[animationIndex].col.r;
+                        g = animation[animationIndex].col.g;
+                        b = animation[animationIndex].col.b;
+
+                        //calculae new rInc
+                        int rDiff = animation[nextAnimationIndex].col.r - animation[animationIndex].col.r;
+                        int gDiff = animation[nextAnimationIndex].col.g - animation[animationIndex].col.g;
+                        int bDiff = animation[nextAnimationIndex].col.b - animation[animationIndex].col.b;
+                        rInc = (float)rDiff/stepsToNextKeyFrame;
+                        gInc = (float)gDiff/stepsToNextKeyFrame;
+                        bInc = (float)bDiff/stepsToNextKeyFrame;
+
+                        animationIndex = nextAnimationIndex;
+
+
+                    }
+
+
+
+                    //update step
                     if (bDirectionUp)
                     {
-                        if (animationIndex==nKeyFrames-1)
+                        step++;
+                        if (step == nSteps-1)
                         {
-                            nextAnimationIndex = animationIndex; //no changes
-                            stepsToNextKeyFrame = (nSteps-step-1)*2;
-                            //bDirectionUp = false;
-                        }
-                        else
-                        {
-                            nextAnimationIndex = animationIndex+1;
-                            stepsToNextKeyFrame = animationSteps[nextAnimationIndex] - step;
-                        }
+                            if (bInfiniteIterations)
+                                bDirectionUp = false;
+                            else
+                            {
+                                bDirectionUp = false;
+                                iterations++;
 
+                            }
+                        }
                     }
                     else //direction down
                     {
-                        if (animationIndex== 0)
+
+                        step--;
+                        if (step==0)
+                            {
+                            if (bInfiniteIterations)
+                                bDirectionUp = true;
+                            else
+                            {
+                                bDirectionUp = true;
+                                iterations++;
+
+                            }
+                        }
+                    }
+
+
+
+                }
+
+                else //not alternate
+                {
+                    if (step == animationSteps[animationIndex])
+                    {
+                        int stepsToNextKeyFrame;
+                        int nextAnimationIndex = (animationIndex+1)%nKeyFrames;;
+                        if (animationIndex==nKeyFrames-1)
                         {
-                            nextAnimationIndex = animationIndex;
-                            stepsToNextKeyFrame = step*2;
+                            stepsToNextKeyFrame = (nSteps - step) + animationSteps[nextAnimationIndex];
                         }
                         else
                         {
-                            nextAnimationIndex = animationIndex -1;
-                            stepsToNextKeyFrame = step - animationSteps[nextAnimationIndex];
+                            stepsToNextKeyFrame = animationSteps[nextAnimationIndex] - step;
+                        }
+                        //set color
+                        r = animation[animationIndex].col.r;
+                        g = animation[animationIndex].col.g;
+                        b = animation[animationIndex].col.b;
+                        //calculae new rInc
+                        int rDiff = animation[nextAnimationIndex].col.r - animation[animationIndex].col.r;
+                        int gDiff = animation[nextAnimationIndex].col.g - animation[animationIndex].col.g;
+                        int bDiff = animation[nextAnimationIndex].col.b - animation[animationIndex].col.b;
+                        rInc = (float)rDiff/stepsToNextKeyFrame;
+                        gInc = (float)gDiff/stepsToNextKeyFrame;
+                        bInc = (float)bDiff/stepsToNextKeyFrame;
+
+                        animationIndex = nextAnimationIndex;
+
+
+                    }
+                    //update step
+                    step++;
+
+                    // check if I did a loop already
+                    if (step == nSteps)
+                    {
+                        if (bInfiniteIterations)
+                            step = 0;
+                        else
+                        {
+                            iterations++;
+                            step = 0;
                         }
 
+
                     }
-                    //set color
-                    r = animation[animationIndex].col.r;
-                    g = animation[animationIndex].col.g;
-                    b = animation[animationIndex].col.b;
 
-                    //calculae new rInc
-                    int rDiff = animation[nextAnimationIndex].col.r - animation[animationIndex].col.r;
-                    int gDiff = animation[nextAnimationIndex].col.g - animation[animationIndex].col.g;
-                    int bDiff = animation[nextAnimationIndex].col.b - animation[animationIndex].col.b;
-                    rInc = (float)rDiff/stepsToNextKeyFrame;
-                    gInc = (float)gDiff/stepsToNextKeyFrame;
-                    bInc = (float)bDiff/stepsToNextKeyFrame;
 
-                    animationIndex = nextAnimationIndex;
+
 
 
                 }
-
-                //update step
-                if (bDirectionUp)
-                {
-                    step++;
-                    if (step == nSteps-1)
-                        bDirectionUp = false;
-
-                }
-                else //direction down
-                {
-
-                    step--;
-                    if (step==0)
-                        bDirectionUp = true;
-                }
-
 
 
             }
 
-            else //not alternate
+            else //it's a transition between two animations
             {
-                if (step == animationSteps[animationIndex])
+                step ++;
+                if (step == nAnimationTransitionSteps-1)
                 {
-                    int stepsToNextKeyFrame;
-                    int nextAnimationIndex = (animationIndex+1)%nKeyFrames;;
-                    if (animationIndex==nKeyFrames-1)
-                    {
-                        stepsToNextKeyFrame = (nSteps - step) + animationSteps[nextAnimationIndex];
-                    }
-                    else
-                    {
-                        stepsToNextKeyFrame = animationSteps[nextAnimationIndex] - step;
-                    }
-                    //set color
-                    r = animation[animationIndex].col.r;
-                    g = animation[animationIndex].col.g;
-                    b = animation[animationIndex].col.b;
-                    //calculae new rInc
-                    int rDiff = animation[nextAnimationIndex].col.r - animation[animationIndex].col.r;
-                    int gDiff = animation[nextAnimationIndex].col.g - animation[animationIndex].col.g;
-                    int bDiff = animation[nextAnimationIndex].col.b - animation[animationIndex].col.b;
-                    rInc = (float)rDiff/stepsToNextKeyFrame;
-                    gInc = (float)gDiff/stepsToNextKeyFrame;
-                    bInc = (float)bDiff/stepsToNextKeyFrame;
-
-                    animationIndex = nextAnimationIndex;
-
-
-                }
-                //update step
-                step++;
-                if (step == nSteps)
                     step = 0;
+                    bAnimationTransition = false;
+                    rInc = 0;
+                    gInc = 0;
+                    bInc = 0;
+                    animationIndex = 0;
+                    r = animation[0].col.r;
+                    g = animation[0].col.g;
+                    b = animation[0].col.b;
 
-
-
+                }
             }
 
-
-        }
-
-        else //it's a transition between two animations
-        {
-            step ++;
-            if (step == nAnimationTransitionSteps-1)
-            {
-                step = 0;
-                bAnimationTransition = false;
-                rInc = 0;
-                gInc = 0;
-                bInc = 0;
-                animationIndex = 0;
-                r = animation[0].col.r;
-                g = animation[0].col.g;
-                b = animation[0].col.b;
-
-            }
         }
 
     }
+
+
+
 }
 
 Color Animator::getColor()

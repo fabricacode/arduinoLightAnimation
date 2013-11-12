@@ -48,7 +48,7 @@ Features
 		
 - animation-play-state
 	CSS3: Specifies whether the animation is running or paused. Default "running"
-	aLA: Not updating works as a pause. 	
+	aLA: Not updating works as a pause; 	
 
 
 
