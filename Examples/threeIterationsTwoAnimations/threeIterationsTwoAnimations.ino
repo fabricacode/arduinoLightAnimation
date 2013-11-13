@@ -1,4 +1,4 @@
-#include <LightAnimation.h>
+  #include <LightAnimation.h>
 
 KeyFrame CyanBlue[2] = {
   KeyFrame(Color(0,255,255),0.0),
@@ -38,10 +38,8 @@ void loop()
       anim.setAnimation(CyanBlue, 2, duration);
     currentAnimation = !currentAnimation;   
   }
-  
-  
-  if (millis() > 10000)
-    anim.update(); 
+
+   anim.update(); 
 }
 
 
