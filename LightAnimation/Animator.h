@@ -115,7 +115,9 @@ class Animator
 
 
         bool bAnimationTransition;
-    int nAnimationTransitionSteps;
+        int nAnimationTransitionSteps;
+
+
 
 
 

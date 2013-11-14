@@ -1,8 +1,9 @@
 #include <LightAnimation.h>
 
 KeyFrame CyanBlue[2] = {
-  KeyFrame(Color(0,0,255),0.0),
-  KeyFrame(Color(0,255,255),0.999),
+  KeyFrame(Color(0,0,255),0.5),
+  KeyFrame(Color(0,255,255),0.0),
+  
 };
 
 
@@ -15,10 +16,11 @@ int nIterations = 3;
 
 void setup()  
 {
+   Serial.begin(9600); 
   anim.setPins(pins); 
   anim.setAnimation(CyanBlue, 2, duration);
   anim.setIterations(nIterations); 
-  Serial.begin(9600); 
+ 
 }
 
 void loop()

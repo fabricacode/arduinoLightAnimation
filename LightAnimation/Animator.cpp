@@ -27,6 +27,20 @@ THE SOFTWARE.
 
 #include "Animator.h"
 
+inline int sortKeyFrames (const void* a, const void* b)
+{
+    const KeyFrame* kfa = (const KeyFrame*)a;
+    const KeyFrame* kfb = (const KeyFrame*)b;
+
+    if (kfa->perc < kfb->perc)
+        return -1;
+    else if (kfa->perc > kfb->perc)
+        return 1;
+    else
+        return 0;
+
+};
+
 Animator::Animator()
 {
     //default things
@@ -90,11 +104,19 @@ void Animator::setAnimation(const KeyFrame* _animation, size_t size)
     nKeyFrames = size;
     animation = new KeyFrame[nKeyFrames];
     animationSteps = new int[nKeyFrames];
-    for (int i=0; i<nKeyFrames; i++)
+     for (int i=0; i<nKeyFrames; i++)
     {
         animation[i] = _animation[i];
+    }
+
+    //sort
+    qsort(animation, size, sizeof(KeyFrame), sortKeyFrames);
+
+    for (int i=0; i<nKeyFrames; i++)
+    {
         animationSteps[i] = floor((animation[i].perc*duration)/STEPTIME); //for each animation's keyframe perc tim the step when it's supposed to start
     }
+
 
     bAnimationTransition = true;
     //diff between newly set animation first color
@@ -117,6 +139,8 @@ void Animator::setAnimation(const KeyFrame* _animation, size_t size, unsigned lo
     if (animationSteps != NULL)
         delete [] animationSteps;
 
+
+
     duration = _duration;
     //allocate memory / check if right
     nKeyFrames = size;
@@ -125,8 +149,16 @@ void Animator::setAnimation(const KeyFrame* _animation, size_t size, unsigned lo
     for (int i=0; i<nKeyFrames; i++)
     {
         animation[i] = _animation[i];
+    }
+
+    //sort
+    qsort(animation, size, sizeof(KeyFrame), sortKeyFrames);
+
+    for (int i=0; i<nKeyFrames; i++)
+    {
         animationSteps[i] = floor((animation[i].perc*duration)/STEPTIME); //for each animation's keyframe perc tim the step when it's supposed to start
     }
+
 
     bAnimationTransition = true;
     //diff between newly set animation first color
@@ -412,3 +444,27 @@ void Animator::writeRGBPins(const Color &col)
     analogWrite(pwmPins[2],col.b);
 
 }
+
+
+//int Animator::sortKeyFrames (const void *a, const void *b)
+//{
+//    const KeyFrame *kfa = (const KeyFrame *) a;
+//    const KeyFrame *kfb = (const KeyFrame *) b;
+//
+//    return (kfa->perc > kfb->perc) - (kfa->perc < kfb->perc);
+//
+//
+//}
+
+
+// static int sortKeyFrames (const void *a, const void *b)
+//{
+//    const KeyFrame *kfa = (const KeyFrame *) a;
+//    const KeyFrame *kfb = (const KeyFrame *) b;
+//
+//    return (kfa->perc > kfb->perc) - (kfa->perc < kfb->perc);
+//
+//}
+
+
+
