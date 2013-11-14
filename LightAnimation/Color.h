@@ -1,6 +1,7 @@
 /*
 RGB led animation for Arduino
 
+
 Copyright (c) 2012 Amico Leonardo - leonardo.amico@gmail.com
 
 

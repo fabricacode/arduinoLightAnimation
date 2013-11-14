@@ -1,8 +1,6 @@
 /*
 RGB led animation for Arduino
 
-uses code from https://github.com/julioterra/HSB_Color for RGB to HSB color conversion
-and https://github.com/joushx/Arduino-RGB-Tools for fading functions
 
 Copyright (c) 2012 Amico Leonardo - leonardo.amico@gmail.com
 
