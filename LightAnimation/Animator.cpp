@@ -1,8 +1,6 @@
 /*
 RGB led animation for Arduino
 
-uses code from https://github.com/julioterra/HSB_Color for RGB to HSB color conversion
-and https://github.com/joushx/Arduino-RGB-Tools for fading functions
 
 Copyright (c) 2012 Amico Leonardo - leonardo.amico@gmail.com
 
@@ -303,7 +301,17 @@ void Animator::update()
                     if (step == animationSteps[animationIndex])
                     {
                         int stepsToNextKeyFrame;
-                        int nextAnimationIndex = (animationIndex+1)%nKeyFrames;;
+
+                        int nextAnimationIndex;
+
+                        //for not to make a transition to the next keyframe, which is on a not wanted iteration
+
+
+                        if (iterations == nIterations -1 && animationIndex == nKeyFrames - 1)
+                            nextAnimationIndex = animationIndex;
+                        else
+                             nextAnimationIndex = (animationIndex+1)%nKeyFrames;
+
                         if (animationIndex==nKeyFrames-1)
                         {
                             stepsToNextKeyFrame = (nSteps - step) + animationSteps[nextAnimationIndex];
@@ -312,11 +320,15 @@ void Animator::update()
                         {
                             stepsToNextKeyFrame = animationSteps[nextAnimationIndex] - step;
                         }
+
+                        if (stepsToNextKeyFrame < 1)
+                            stepsToNextKeyFrame = 1;
+
                         //set color
                         r = animation[animationIndex].col.r;
                         g = animation[animationIndex].col.g;
                         b = animation[animationIndex].col.b;
-                        //calculae new rInc
+                        //calculate new rInc
                         int rDiff = animation[nextAnimationIndex].col.r - animation[animationIndex].col.r;
                         int gDiff = animation[nextAnimationIndex].col.g - animation[animationIndex].col.g;
                         int bDiff = animation[nextAnimationIndex].col.b - animation[animationIndex].col.b;

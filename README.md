@@ -3,10 +3,14 @@ arduinoLightAnimation
 
 CSS3 style color animation for controlling RGB leds on Arduino
 
-Note: Putting "delay" function will obviously interfere with the timing of the animation, since the update function is supposed to be executed each cycle
-
+Note: Putting "delay" function will obviously interfere with the timing of the animation, since the update function is supposed to be executed each cycle. 
 
 Features
+
+- order for setting animation keyframe is not relevant
+- transition time when animation are changed on runtime 
+
+Features/comparison with css
 
 
 - animation-duration 
@@ -35,6 +39,9 @@ Features
 			myAnimator.setIterationsInfinite(true); 
 		or restore past number of iterations
 			myAnimator.setIterationsInfinite(false); 
+
+		
+
 
 - animation-direction
 	CSS3: Specifies whether or not the animation should play in reverse on alternate cycles. Default "normal" 

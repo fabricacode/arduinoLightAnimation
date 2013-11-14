@@ -1,4 +1,4 @@
-  #include <LightAnimation.h>
+#include <LightAnimation.h>
 
 KeyFrame CyanBlue[2] = {
   KeyFrame(Color(0,255,255),0.0),
@@ -36,7 +36,7 @@ void loop()
       anim.setAnimation(RedMagenta, 2, duration);
     else
       anim.setAnimation(CyanBlue, 2, duration);
-    currentAnimation = !currentAnimation;   
+      currentAnimation = !currentAnimation;   
   }
 
    anim.update(); 
