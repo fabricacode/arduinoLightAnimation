@@ -55,21 +55,16 @@ class Color
     static Color fromHex(int _hexCol);
     static Color fromHex(unsigned int _hexCol);
 
+
     Color(long int _hexCol);
     Color(int _hexCol);
     Color(unsigned int _hexCol);
 
     void setHSB(int _h, int _s, int _b); //hue: 0 - 359; saturation: 0 - 99; brightness: 0 - 99
 
-//    void setHue(int _hue);
-//    void setBrightness(int _brightness);
-//    int getHue();
-//    int getBrightness();
-
     unsigned char r;
     unsigned char g;
     unsigned char b;
-
 
 };
 

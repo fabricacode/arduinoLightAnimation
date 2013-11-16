@@ -8,7 +8,8 @@ Note: Putting "delay" function will obviously interfere with the timing of the a
 Features
 
 - order for setting animation keyframe is not relevant
-- transition time when animation are changed on runtime 
+- transition when animation are changed on runtime 
+
 
 Features/comparison with css
 
@@ -58,4 +59,6 @@ Features/comparison with css
 	aLA: Not updating works as a pause. 	
 
 
-
+Other features
+- Set time of trasition between different animations
+		setTransitionDuration(unsigned long _transitionDuration)
