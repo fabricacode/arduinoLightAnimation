@@ -19,10 +19,13 @@ void setup()
 {
   anim.setPins(pins); 
   anim.setAnimation(rainbow, 3 , duration);
+  
+  Serial.begin(9600); 
 }
 
 
 void loop()
 {
+  
   anim.update();  
 }

@@ -46,7 +46,7 @@ Animator::Animator()
     //default things
     duration = 1000;
 
-    nIterations = 1;
+    nIterations = -1;
     iterations = 0;
     bInfiniteIterations = true;
 
@@ -237,6 +237,7 @@ void Animator::update()
             {
                 if (bAlternate)
                 {
+
                     //check if I'm in a new keyframe
                     if (step == animationSteps[animationIndex])
                     {
@@ -340,9 +341,18 @@ void Animator::update()
 
 
                         if (iterations == nIterations -1 && animationIndex == nKeyFrames - 1)
+                        {
                             nextAnimationIndex = animationIndex;
+                             Serial.print("next anim index: ");
+                            Serial.println(nextAnimationIndex);
+
+                        }
+
+
                         else
                              nextAnimationIndex = (animationIndex+1)%nKeyFrames;
+
+
 
                         if (animationIndex==nKeyFrames-1)
                         {
@@ -355,6 +365,7 @@ void Animator::update()
 
                         if (stepsToNextKeyFrame < 1)
                             stepsToNextKeyFrame = 1;
+
 
                         //set color
                         r = animation[animationIndex].col.r;
