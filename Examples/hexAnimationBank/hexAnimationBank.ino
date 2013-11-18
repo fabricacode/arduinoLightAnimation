@@ -2,7 +2,7 @@
 #include "animations.h"
 
 Animator anim; 
-int pins[3] = {3,5,6};
+int pins[3] = {3,6,5};
 int duration = 5000; 
 void setup()
 {

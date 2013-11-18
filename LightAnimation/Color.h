@@ -49,11 +49,11 @@ class Color
     Color(unsigned char _r, unsigned char _g, unsigned char _b);
     Color(unsigned char _grey);
 
+
     static Color fromHSB(int _h, int _s, int _b);
 
-    static Color fromHex(long int _hexCol);
     static Color fromHex(int _hexCol);
-    static Color fromHex(unsigned int _hexCol);
+
 
 
     Color(long int _hexCol);
@@ -65,6 +65,10 @@ class Color
     unsigned char r;
     unsigned char g;
     unsigned char b;
+
+    Color & operator = (Color const & col);
+
+
 
 };
 

@@ -57,35 +57,47 @@ Color Color::fromHSB(int _h, int _s, int _b)
     return col;
 }
 
-Color Color::fromHex(long int _hexCol)
-{
-    //as 0xrrggbb
-    Color col = Color();
-    col.r = (_hexCol >> 16) & 0xFF;
-    col.g = (_hexCol >> 8) & 0xFF;
-    col.b = (_hexCol >> 0 ) & 0xFF;
-    return col;
+Color & Color::operator = (Color const & col){
+    r = col.r;
+	g = col.g;
+	b = col.b;
+	return *this;
 }
+
+//Color Color::fromHex(long int _hexCol)
+//{
+//    //as 0xrrggbb
+//    Color col = Color();
+//    col.r = (_hexCol >> 16) & 0xFF;
+//    col.g = (_hexCol >> 8) & 0xFF;
+//    col.b = (_hexCol >> 0 ) & 0xFF;
+//    return col;
+//}
 
 Color Color::fromHex(int _hexCol)
 {
     //as 0xrrggbb
-    Color col = Color();
-    col.r = (_hexCol >> 16) & 0xFF;
-    col.g = (_hexCol >> 8) & 0xFF;
-    col.b = (_hexCol >> 0 ) & 0xFF;
+    Color col = Color(0,0,0);
+    col.r = ((_hexCol >> 16) & 0xff);
+    col.g = (_hexCol >> 8) & 0xff;
+    col.b = (_hexCol) & 0xff;
+
     return col;
 }
 
-Color Color::fromHex(unsigned int _hexCol)
-{
-    //as 0xrrggbb
-    Color col = Color();
-    col.r = (_hexCol >> 16) & 0xFF;
-    col.g = (_hexCol >> 8) & 0xFF;
-    col.b = (_hexCol >> 0 ) & 0xFF;
-    return col;
-}
+
+//Color Color::fromHex(unsigned int _hexCol)
+//{
+//    //as 0xrrggbb
+//    Color col = Color();
+//    col.r = (_hexCol >> 16) & 0xFF;
+//    col.g = (_hexCol >> 8) & 0xFF;
+//    col.b = (_hexCol >> 0 ) & 0xFF;
+//
+//    return col;
+//
+//
+//}
 
 
 
