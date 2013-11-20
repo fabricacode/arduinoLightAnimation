@@ -3,15 +3,17 @@ arduinoLightAnimation
 
 CSS3 style color animation for controlling RGB leds on Arduino
 
-Note: Putting "delay" function will obviously interfere with the timing of the animation, since the update function is supposed to be executed each cycle. 
+Note: Putting "delay" function will interfere with the timing of the animation, since the update function is supposed to be executed each cycle. 
 
 Features
 
-- order for setting animation keyframe is not relevant
-- transition when animation are changed on runtime 
+- Order for setting animation keyframe is not relevant
+- Transition when animation are changed on runtime 
+- Can put colors in rgb, hex, hsb
 
+=====================
 
-Features/comparison with css
+css3 animation comparison
 
 
 - animation-duration 
@@ -61,4 +63,8 @@ Features/comparison with css
 
 Other features
 - Set time of trasition between different animations
-		setTransitionDuration(unsigned long _transitionDuration)
+		myAnimator.setTransitionDuration(unsigned long _transitionDuration)
+
+
+=====================
+Check the Examples for an idea of how to use the library 
