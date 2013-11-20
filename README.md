@@ -10,6 +10,7 @@ css3 animation comparison
 	- CSS3: Specifies how many seconds or milliseconds an animation takes to complete one cycle. Default 0. 
 	- aLA: Specifies how many milliseconds an animation takes to complete one cycle. Default 1000ms. 
 		- can be set either when the animation is set: 
+
 			```
 			myAnimator.setAnimation(animationKeyFrameArray, nKeyFrames, duration_ms); 
 			```
