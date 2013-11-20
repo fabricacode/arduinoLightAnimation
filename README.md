@@ -3,8 +3,6 @@ arduinoLightAnimation
 
 CSS3 style color animation for controlling RGB leds on Arduino
 
-=====================
-
 css3 animation comparison
 -------
 
@@ -26,26 +24,36 @@ css3 animation comparison
 	aLA: Start to update after a delay will suffice. 
 
 - animation-iteration-count
-	CSS3: Specifies the number of times an animation is played. Default 1
-	aLA: Specifies the number of times an animation is played. Default infinite; 
-		in setup, for setting number of iterations
+	- CSS3: Specifies the number of times an animation is played. Default 1
+	- aLA: Specifies the number of times an animation is played. Default infinite; 
+		- in setup, for setting number of iterations
+			```
 			myAnimator.setIterations(nIterations); 
-		for setting infinite iterations 
+			```
+		- for setting infinite iterations 
+			```
 			myAnimator.setIterationsInfinite(true); 
-		or restore past number of iterations
+			```
+		- or restore past number of iterations
+			```
 			myAnimator.setIterationsInfinite(false); 
+			```
 
 		
 
 
 - animation-direction
-	CSS3: Specifies whether or not the animation should play in reverse on alternate cycles. Default "normal" 
+	- CSS3: Specifies whether or not the animation should play in reverse on alternate cycles. Default "normal" 
 		http://www.w3schools.com/cssref/css3_pr_animation-direction.asp
-	aLA: Specifies if the animation is played always from begin to end "normal" or alternately from begin to end, then from end to begin "alternate". Default is "normal". 
-		in setup, for setting the "alternate" mode. 
+	- aLA: Specifies if the animation is played always from begin to end "normal" or alternately from begin to end, then from end to begin "alternate". Default is "normal". 
+		- in setup, for setting the "alternate" mode. 
+			```
 			myAnimator.setAlternate(true); 
-		"normal" mode
+			```
+		- "normal" mode
+			```
 			myAnimator.setAlternate(false); 
+			```
 		
 		
 - animation-play-state
