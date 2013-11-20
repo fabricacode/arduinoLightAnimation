@@ -28,12 +28,14 @@ THE SOFTWARE.
 #include "Color.h"
 
 
+
 Color :: Color()
 {
     r = 0;
     g = 0;
     b = 0;
 }
+
 
 Color :: Color(unsigned char _r, unsigned char _g, unsigned char _b)
 {
@@ -49,61 +51,23 @@ Color::Color(unsigned char _grey)
     b = _grey;
 }
 
+Color Color::fromHex(unsigned long _hexCol)
+{
+    Color col;
+    col.setHex(_hexCol);
+    return col;
+}
+
 Color Color::fromHSB(int _h, int _s, int _b)
 {
-    Color col = Color();
-    col.setHSB(_h, _s, _b);
-
+    Color col;
+    col.setHSB(_h,_s,_b);
     return col;
 }
-
-Color & Color::operator = (Color const & col){
-    r = col.r;
-	g = col.g;
-	b = col.b;
-	return *this;
-}
-
-//Color Color::fromHex(long int _hexCol)
-//{
-//    //as 0xrrggbb
-//    Color col = Color();
-//    col.r = (_hexCol >> 16) & 0xFF;
-//    col.g = (_hexCol >> 8) & 0xFF;
-//    col.b = (_hexCol >> 0 ) & 0xFF;
-//    return col;
-//}
-
-Color Color::fromHex(int _hexCol)
-{
-    //as 0xrrggbb
-    Color col = Color(0,0,0);
-    col.r = ((_hexCol >> 16) & 0xff);
-    col.g = (_hexCol >> 8) & 0xff;
-    col.b = (_hexCol) & 0xff;
-
-    return col;
-}
-
-
-//Color Color::fromHex(unsigned int _hexCol)
-//{
-//    //as 0xrrggbb
-//    Color col = Color();
-//    col.r = (_hexCol >> 16) & 0xFF;
-//    col.g = (_hexCol >> 8) & 0xFF;
-//    col.b = (_hexCol >> 0 ) & 0xFF;
-//
-//    return col;
-//
-//
-//}
-
 
 
 void Color :: setHSB(int _hue, int _saturation, int _brightness)
 {
-    // ofClamp all input variables to expected range
     int hue = constrain(_hue, 0, 359);
     int sat = constrain(_saturation, 0, 99);
     int bright = constrain(_brightness, 0, 99);
@@ -114,7 +78,6 @@ void Color :: setHSB(int _hue, int _saturation, int _brightness)
         g = 0;
         b = 0;
 
-        Serial.print("bright 0: ");
 
     }
     else if (sat == 0)
@@ -123,7 +86,6 @@ void Color :: setHSB(int _hue, int _saturation, int _brightness)
         g = bright;
         b = bright;
 
-         Serial.print("sat 0: ");
     }
 
     else
@@ -178,3 +140,22 @@ void Color :: setHSB(int _hue, int _saturation, int _brightness)
 
     }
 }
+
+void Color::setHex(unsigned long _hexCol)
+{
+
+    r = (_hexCol >> 16) & 0xff;
+    g = (_hexCol >> 8) & 0xff;
+    b = (_hexCol) & 0xff;
+
+
+}
+
+
+const Color Color::white(255);
+const Color Color::red(255, 0, 0);
+const Color Color::green(0,255, 0);
+const Color Color::blue(0,0,255);
+const Color Color::yellow(255,255,0);
+const Color Color::magenta(255,0,255);
+const Color Color::cyan(0,255,255);

@@ -49,24 +49,18 @@ class Color
     Color(unsigned char _r, unsigned char _g, unsigned char _b);
     Color(unsigned char _grey);
 
-
+    static Color fromHex(unsigned long _hexCol);
     static Color fromHSB(int _h, int _s, int _b);
 
-    static Color fromHex(int _hexCol);
-
-
-
-    Color(long int _hexCol);
-    Color(int _hexCol);
-    Color(unsigned int _hexCol);
-
     void setHSB(int _h, int _s, int _b); //hue: 0 - 359; saturation: 0 - 99; brightness: 0 - 99
+    void setHex(unsigned long _hexCol);
 
     unsigned char r;
     unsigned char g;
     unsigned char b;
 
-    Color & operator = (Color const & col);
+    static const Color white, red, green, blue, cyan, magenta, yellow;
+
 
 
 

@@ -11,6 +11,13 @@
 };
 
 //strobo
+  KeyFrame strobo[5] = {
+  KeyFrame(Color::fromHex(0xffffff),0.0),
+  KeyFrame(Color::fromHex(0xffffff),0.1),
+  KeyFrame(Color::fromHex(0x0000ff),0.25),
+  KeyFrame(Color::fromHex(0xffffff),0.5),
+  KeyFrame(Color::fromHex(0xffffff),0.6),
+};
 
 //rainbow
 KeyFrame rainbow[8] = {

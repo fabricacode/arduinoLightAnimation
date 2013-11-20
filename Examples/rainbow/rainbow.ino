@@ -1,14 +1,10 @@
 
 #include <LightAnimation.h>
 
-Color red = Color(255,0,0); 
-Color green = Color(0,255,0);
-Color blue = Color(0,0,255); 
-
 KeyFrame rainbow[3] = {
-  KeyFrame(red, 0.0), 
-  KeyFrame(green, 0.33), 
-  KeyFrame(blue, 0.66)
+  KeyFrame(Color::red, 0.0), 
+  KeyFrame(Color::green, 0.33), 
+  KeyFrame(Color::blue, 0.66)
 }; 
 
 Animator anim; 

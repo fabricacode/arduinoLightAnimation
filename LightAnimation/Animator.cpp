@@ -109,6 +109,8 @@ void Animator::setAnimation(const KeyFrame* _animation, size_t size)
         animation[i] = _animation[i];
     }
 
+
+
     //sort
     qsort(animation, size, sizeof(KeyFrame), sortKeyFrames);
 
@@ -134,11 +136,11 @@ void Animator::setAnimation(const KeyFrame* _animation, size_t size)
 
 void Animator::setAnimation(const KeyFrame* _animation, size_t size, unsigned long _duration)
 {
+
     if (animation != NULL)
         delete [] animation;
     if (animationSteps != NULL)
         delete [] animationSteps;
-
 
 
     duration = _duration;
@@ -150,6 +152,10 @@ void Animator::setAnimation(const KeyFrame* _animation, size_t size, unsigned lo
     {
         animation[i] = _animation[i];
     }
+
+
+
+
 
     //sort
     qsort(animation, size, sizeof(KeyFrame), sortKeyFrames);
@@ -222,6 +228,9 @@ void Animator::update()
         if (millis() - lastCounterUpdate > STEPTIME)
         {
 
+
+
+
             lastCounterUpdate = millis();
             //update colors
             r += rInc;
@@ -272,6 +281,8 @@ void Animator::update()
                             }
 
                         }
+                        if (stepsToNextKeyFrame < 1)
+                            stepsToNextKeyFrame = 1;
                         //set color
                         r = animation[animationIndex].col.r;
                         g = animation[animationIndex].col.g;
@@ -343,8 +354,7 @@ void Animator::update()
                         if (iterations == nIterations -1 && animationIndex == nKeyFrames - 1)
                         {
                             nextAnimationIndex = animationIndex;
-                             Serial.print("next anim index: ");
-                            Serial.println(nextAnimationIndex);
+
 
                         }
 

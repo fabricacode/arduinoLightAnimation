@@ -25,14 +25,13 @@ THE SOFTWARE.
 
 */
 
-// TODO Add: set colors in different ways (rbg, hsv, hex... )
-
 #ifndef LIGHTANIMATION_H
 #define LIGHTANIMATION_H
 
 #include "Animator.h"
 #include "KeyFrame.h"
 #include "Color.h"
+
 
 
 #endif // LIGHTANIMATION_H
