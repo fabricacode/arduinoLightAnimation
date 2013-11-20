@@ -7,21 +7,25 @@ css3 animation comparison
 -------
 
 - animation-duration 
-	CSS3: Specifies how many seconds or milliseconds an animation takes to complete one cycle. Default 0. 
-	aLA: Specifies how many milliseconds an animation takes to complete one cycle. Default 1000ms. 
-		can be set either when the animation is set: 
+	- CSS3: Specifies how many seconds or milliseconds an animation takes to complete one cycle. Default 0. 
+	- aLA: Specifies how many milliseconds an animation takes to complete one cycle. Default 1000ms. 
+		- can be set either when the animation is set: 
+			```
 			myAnimator.setAnimation(animationKeyFrameArray, nKeyFrames, duration_ms); 
-		or BEFORE to set the animation: 
+			```
+		- or BEFORE to set the animation: 
+			```
 			myAnimator.setDuration(duration_ms);
 			myAnimator.setAnimation(animationKeyFrameArray, nKeyFrames); 
+			```
 
 - animation-timing-function
-	CSS3: Describes how the animation will progress over one cycle of its duration. Default "ease"
-	aLA: Now only linear
+	- CSS3: Describes how the animation will progress over one cycle of its duration. Default "ease"
+	- aLA: Now only linear
 
 - animation-delay
-	CSS3: Specifies when the animation will start. Default 0
-	aLA: Start to update after a delay will suffice. 
+	- CSS3: Specifies when the animation will start. Default 0
+	- aLA: Start to update after a delay will suffice. 
 
 - animation-iteration-count
 	- CSS3: Specifies the number of times an animation is played. Default 1
@@ -57,8 +61,8 @@ css3 animation comparison
 		
 		
 - animation-play-state
-	CSS3: Specifies whether the animation is running or paused. Default "running"
-	aLA: Not updating works as a pause. 
+	- CSS3: Specifies whether the animation is running or paused. Default "running"
+	- aLA: Not updating works as a pause. 
 
 
 Other features
