@@ -1,7 +1,7 @@
 arduinoLightAnimation
 =====================
 
-CSS3 style color animation library for controlling RGB leds on Arduino
+CSS3 style color animation library for controlling RGB leds on Arduino https://vimeo.com/79962595
 
 CSS3 animation comparison
 -------
