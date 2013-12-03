@@ -117,6 +117,14 @@ void Animator::setAnimation(const KeyFrame* _animation, size_t size)
     for (int i=0; i<nKeyFrames; i++)
     {
         animationSteps[i] = floor((animation[i].perc*duration)/STEPTIME); //for each animation's keyframe perc tim the step when it's supposed to start
+
+        //for avoiding two keyframes at the same step
+        if (i>0)
+        {
+            if (animationSteps[i] == animationSteps[i-1])
+                animationSteps[i]+=1;
+        }
+
     }
 
 
@@ -163,6 +171,13 @@ void Animator::setAnimation(const KeyFrame* _animation, size_t size, unsigned lo
     for (int i=0; i<nKeyFrames; i++)
     {
         animationSteps[i] = floor((animation[i].perc*duration)/STEPTIME); //for each animation's keyframe perc tim the step when it's supposed to start
+
+        //for avoiding two keyframes at the same step
+        if (i>0)
+        {
+            if (animationSteps[i] == animationSteps[i-1])
+                animationSteps[i]+=1;
+        }
     }
 
 
