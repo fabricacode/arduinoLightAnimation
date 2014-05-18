@@ -36,12 +36,6 @@ THE SOFTWARE.
 
 #include "KeyFrame.h"
 
-#if defined(ARDUINO) && ARDUINO >= 100
-#include "Arduino.h"
-#else
-#include "WProgram.h"
-#endif
-
 #define STEPTIME 50 //update every XX ms
 #define MAXNITERATIONS 100000
 
